@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "text": "Изучить Redux Toolkit",
+    "completed": false,
+    "createdAt": "2024-01-15T10:00:00.000Z"
+  },
+  {
+    "id": 2,
+    "text": "Написать ToDo приложение",
+    "completed": true,
+    "createdAt": "2024-01-14T15:30:00.000Z"
+  },
+  {
+    "id": 3,
+    "text": "Разобраться с TypeScript",
+    "completed": false,
+    "createdAt": "2024-01-16T09:15:00.000Z"
+  },
+  {
+    "id": 4,
+    "text": "Настроить пагинацию",
+    "completed": true,
+    "createdAt": "2024-01-13T14:20:00.000Z"
+  },
+  {
+    "id": 5,
+    "text": "Добавить фильтрацию задач",
+    "completed": false,
+    "createdAt": "2024-01-17T11:45:00.000Z"
+  },
+  {
+    "id": 6,
+    "text": "Изучить React хуки",
+    "completed": false,
+    "createdAt": "2024-01-12T16:10:00.000Z"
+  },
+  {
+    "id": 7,
+    "text": "Создать компонент TodoItem",
+    "completed": true,
+    "createdAt": "2024-01-18T08:30:00.000Z"
+  },
+  {
+    "id": 8,
+    "text": "Настроить Chakra UI",
+    "completed": true,
+    "createdAt": "2024-01-11T13:25:00.000Z"
+  },
+  {
+    "id": 9,
+    "text": "Реализовать добавление задач",
+    "completed": false,
+    "createdAt": "2024-01-19T12:00:00.000Z"
+  },
+  {
+    "id": 10,
+    "text": "Протестировать приложение",
+    "completed": false,
+    "createdAt": "2024-01-20T07:45:00.000Z"
+  },
+  {
+    "id": 11,
+    "text": "Изучить асинхронные действия",
+    "completed": false,
+    "createdAt": "2024-01-10T18:20:00.000Z"
+  },
+  {
+    "id": 12,
+    "text": "Оптимизировать производительность",
+    "completed": false,
+    "createdAt": "2024-01-21T10:30:00.000Z"
+  },
+  {
+    "id": 13,
+    "text": "Добавить обработку ошибок",
+    "completed": false,
+    "createdAt": "2024-01-22T14:15:00.000Z"
+  },
+  {
+    "id": 14,
+    "text": "Написать документацию",
+    "completed": true,
+    "createdAt": "2024-01-09T11:50:00.000Z"
+  },
+  {
+    "id": 15,
+    "text": "Задеплоить приложение",
+    "completed": true,
+    "createdAt": "2024-01-23T09:00:00.000Z"
+  }
+]

@@ -1,28 +1,50 @@
 import { useState } from 'react'
-import { Button, ButtonGroup, Box, Input } from '@chakra-ui/react'
+import {
+  Button,
+  ButtonGroup,
+  Box,
+  Input,
+  Grid,
+  GridItem,
+  Alert,
+} from '@chakra-ui/react'
 
-interface EditTodoProps {
+type EditTodoProps = {
   baseText: string
   onCancel: () => void
   onSave: (newText: string) => void
 }
 
 export function EditTodo({ baseText, onCancel, onSave }: EditTodoProps) {
-  const [value, setValue] = useState<string>(baseText)
+  const [value, setValue] = useState(baseText)
+  const [error, setError] = useState(false)
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const value = e.target.value
-    setValue(value)
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value
+    setValue(newValue)
+    setError(false)
   }
 
-  function handleKeyDown(e: React.KeyboardEvent) {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      onSave(value)
+      handleSave()
     }
   }
 
+  const handleSave = () => {
+    if (value.trim() !== '') {
+      onSave(value.trim())
+    } else {
+      setError(true)
+    }
+  }
+
+  const handleCancel = () => {
+    onCancel()
+  }
+
   return (
-    <section>
+    <Box>
       <Input
         marginRight='1rem'
         type='text'
@@ -32,17 +54,38 @@ export function EditTodo({ baseText, onCancel, onSave }: EditTodoProps) {
         value={value}
         autoFocus
         size='md'
+        variant='flushed'
       />
-      <Box textAlign='right' margin='1rem 0'>
-        <ButtonGroup textAlign='right' size='sm' variant='subtle'>
-          <Button onClick={() => onSave(value)} colorPalette='green'>
-            Сохранить
-          </Button>
-          <Button onClick={onCancel} colorPalette='red'>
-            Закрыть
-          </Button>
-        </ButtonGroup>
+
+      <Box textAlign='left' margin='1rem 0'>
+        <Grid templateColumns='1fr auto' gap={2} alignItems='center'>
+          <GridItem display='flex' justifyContent='center'>
+            {error && (
+              <Alert.Root size='sm' status='error'>
+                <Alert.Indicator />
+                <Alert.Content>
+                  <Alert.Title>Поле не может быть пустым!</Alert.Title>
+                </Alert.Content>
+              </Alert.Root>
+            )}
+          </GridItem>
+
+          <GridItem display='flex' justifyContent='center'>
+            <ButtonGroup size='md' variant='subtle'>
+              <Button
+                disabled={error}
+                onClick={handleSave}
+                colorPalette='green'
+              >
+                Сохранить
+              </Button>
+              <Button onClick={handleCancel} colorPalette='red'>
+                Закрыть
+              </Button>
+            </ButtonGroup>
+          </GridItem>
+        </Grid>
       </Box>
-    </section>
+    </Box>
   )
 }

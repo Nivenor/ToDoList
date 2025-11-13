@@ -2,52 +2,74 @@ import { EditTodo } from './EditTodo'
 import { useState } from 'react'
 import { VscEdit, VscPass, VscPassFilled, VscTrash } from 'react-icons/vsc'
 import { GridItem, Box, Grid, IconButton, Text } from '@chakra-ui/react'
-import type { Todo } from '../App'
+import { useAppDispatch, useAppSelector } from '../hooks/redux'
+import {
+  toggleTodoThunk,
+  updateTodoThunk,
+  deleteTodoThunk,
+} from '../store/todoSlice'
 
-interface TodoItemProps {
-  editTask: (todoId: number, editText: string) => void
-  removeTask: (todoId: number) => void
-  toggleDoneTask: (todoId: number) => void
-  todo: Todo
-}
-
-export function TodoItem({
-  todo,
-  editTask,
-  removeTask,
-  toggleDoneTask,
-}: TodoItemProps) {
+export function TodoItem({ todoId }: { todoId: number }) {
   const [isEditing, setIsEditing] = useState(false)
+  const dispatch = useAppDispatch()
+  const todo = useAppSelector(state =>
+    state.todos.items.find(t => t.id === todoId)
+  )
+
+  if (!todo) return null
+
+  function handleEdit(newText: string) {
+    dispatch(updateTodoThunk({ id: todoId, text: newText }))
+    setIsEditing(false)
+  }
+
+  function handleToggle() {
+    dispatch(toggleTodoThunk(todoId))
+  }
+
+  function handleDelete() {
+    dispatch(deleteTodoThunk(todoId))
+  }
 
   return (
     <>
       {isEditing ? (
         <EditTodo
           baseText={todo.text}
-          onSave={newText => {
-            if (newText.trim() !== '') {
-              editTask(todo.id, newText)
-              setIsEditing(false)
-            } else alert('Поле ввода не может быть пустым!')
-          }}
+          onSave={handleEdit}
           onCancel={() => setIsEditing(false)}
         />
       ) : (
         <Grid
+          _hover={{
+            borderColor: 'bg.active',
+            borderRadius: '0rem',
+          }}
           templateColumns='auto 1fr auto auto'
           gap={6}
           alignItems='center'
-          padding='0.5rem 0'
+          p={1}
+          borderBottom='0.01rem solid'
+          borderColor='bg.border'
+          borderRadius={15}
+          marginTop={1}
+          transition='0.2s ease-out'
         >
           <GridItem>
             <IconButton
               variant='ghost'
-              onClick={() => toggleDoneTask(todo.id)}
+              onClick={handleToggle}
               size='lg'
+              aria-label={
+                todo.completed
+                  ? 'Отметить невыполненным'
+                  : 'Отметить выполненным'
+              }
             >
-              {todo.completed ? <VscPassFilled /> : <VscPass />}
+              {todo.completed ? <VscPassFilled color='grey' /> : <VscPass />}
             </IconButton>
           </GridItem>
+
           <GridItem>
             <Box>
               <Text
@@ -60,20 +82,24 @@ export function TodoItem({
               </Text>
             </Box>
           </GridItem>
+
           <GridItem>
             <IconButton
               variant='ghost'
               onClick={() => setIsEditing(true)}
               size='lg'
+              aria-label='Редактировать задачу'
             >
               <VscEdit />
             </IconButton>
           </GridItem>
+
           <GridItem display='flex' justifyContent='center'>
             <IconButton
               variant='ghost'
               size='lg'
-              onClick={() => removeTask(todo.id)}
+              onClick={handleDelete}
+              aria-label='Удалить задачу'
             >
               <VscTrash />
             </IconButton>
