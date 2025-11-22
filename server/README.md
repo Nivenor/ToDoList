@@ -1,64 +1,99 @@
-# Todo API Server
-
-Простой JSON API сервер для управления задачами с пагинацией и файловой базой данных.
+# Todo Auth API Server (Блок 3)
 
 ## Установка
 
-0.  Зайдите в папку server
-1.  Убедитесь, что у вас установлен Node.js (версия 14 или выше)
+1.  Убедитесь, что установлен Node.js v14+
 2.  Установите зависимости:
 
 ```bash
-npm install
+npm install express cors jsonwebtoken bcryptjs
 ```
 
 3.  Запустите сервер:
 
 ```bash
-npm run start
+node server.js
 ```
 
 ## Базовый URL
 
-`http://localhost:3001`
+`http:localhost:3001`
 
-## Формат ответа
+## Аутентификация
 
-Все успешные ответы возвращаются в формате:
+### Регистрация
+
+**POST** `/auth/register`
 
 ```json
 {
-  "data": [
-    {
-      "id": 1744559298538,
-      "text": "test",
-      "completed": false,
-      "createdAt": "2025-04-13T15:48:18.538Z"
-    }
-  ],
-  "total": 1,
-  "page": 1,
-  "limit": 10,
-  "totalPages": 1
+  "email": "user@example.com",
+  "password": "securepassword",
+  "age": 25 //опционально
 }
 ```
 
-## Эндпоинты
+Ответ:
 
-### Получить список задач (с пагинацией и фильтрацией)
+```json
+{
+  "accessToken": "JWT_TOKEN",
+  "refreshToken": "REFRESH_TOKEN"
+}
+```
 
-**GET** `/todos`
+### Логин
 
-Параметры запроса:
+**POST** `/auth/login` (аналогичный формат запроса)
 
-- `page` - номер страницы (по умолчанию: 1)
-- `limit` - количество задач на странице (по умолчанию: 10)
-- `filter` - фильтр по статусу:
-  - `all` - все задачи (значение по умолчанию)
-  - `completed` - только выполненные задачи
-  - `active` - только невыполненные задачи
+### Обновление токенов
 
-Пример ответа:
+**POST** `/auth/refresh`
+
+```json
+{
+  "refreshToken": "your_refresh_token"
+}
+```
+
+## Профиль
+
+### Получить данные
+
+**GET** `/auth/me`  
+ **Требует:** `Authorization: Bearer ACCESS_TOKEN`  
+ Ответ:
+
+```json
+{
+  "id": 1,
+  "email": "user@example.com",
+  "age": 25,
+  "createdAt": "2023-10-20T10:00:00.000Z"
+}
+```
+
+### Смена пароля
+
+**POST** `/auth/change-password`  
+ **Требует:** `Authorization: Bearer ACCESS_TOKEN`  
+ Запрос:
+
+```json
+{
+  "oldPassword": "current_password",
+  "newPassword": "new_secure_password"
+}
+```
+
+## Работа с задачами
+
+Все эндпоинты требуют заголовок `Authorization`
+
+### Получить задачи
+
+**GET** `/todos?page=1&limit=10`  
+ Ответ:
 
 ```json
 {
@@ -70,19 +105,18 @@ npm run start
       "createdAt": "2023-10-20T10:00:00.000Z"
     }
   ],
-
-  "total": 15,
-  "page": 1,
-  "limit": 10,
-  "totalPages": 2
+  "pagination": {
+    "total": 15,
+    "page": 1,
+    "limit": 10,
+    "totalPages": 2
+  }
 }
 ```
 
-### Создать новую задачу
+### Создать задачу
 
 **POST** `/todos`
-
-Тело запроса:
 
 ```json
 {
@@ -90,22 +124,9 @@ npm run start
 }
 ```
 
-Пример ответа:
-
-```json
-{
-  "id": 2,
-  "text": "Новая задача",
-  "completed": false,
-  "createdAt": "2023-10-20T11:00:00.000Z"
-}
-```
-
 ### Обновить задачу
 
 **PUT** `/todos/:id`
-
-Тело запроса (можно обновлять текст и/или статус):
 
 ```json
 {
@@ -118,10 +139,36 @@ npm run start
 
 **DELETE** `/todos/:id`
 
-Возвращает HTTP 204 при успешном удалении.
-
-### Переключить статус задачи
+### Переключить статус
 
 **PATCH** `/todos/:id/toggle`
 
-Автоматически меняет статус completed на противоположный.
+## Хранение данных
+
+- `users.json` - email, хеш пароля, возраст, дата регистрации
+- `todos.json` - задачи с привязкой к пользователю
+- `refresh-tokens.json` - список активных refresh-токенов
+
+## Пример запроса
+
+```javascript
+ Логин
+const { accessToken } = await fetch('/auth/login', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    email: 'user@example.com',
+    password: 'password'
+  })
+}).then(res => res.json());
+
+ Создание задачи
+await fetch('/todos', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${accessToken}`
+  },
+  body: JSON.stringify({ text: 'Новая задача' })
+});
+```

@@ -1,10 +1,10 @@
 import {
+  type TypedUseSelectorHook,
   useDispatch,
   useSelector,
-  type TypedUseSelectorHook,
 } from 'react-redux'
 
-import type { RootState, AppDispatch } from '../store'
+import type { AppDispatch, RootState } from '../store'
 import { createSelector } from '@reduxjs/toolkit'
 
 const selectTodos = (state: RootState) => state.todos

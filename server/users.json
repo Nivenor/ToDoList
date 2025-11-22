@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1763664336812,
+    "email": "levanin.ivan000@yandex.ru",
+    "password": "$2a$10$YVrdu.mg.jKjn7BIR36re.bg1YWXm57QLxUEYYuCf53ZS6mD5B0Xu",
+    "age": 12,
+    "createdAt": "2025-11-20T18:45:36.812Z"
+  },
+  {
+    "id": 1763742283345,
+    "email": "levanin@yandex.ru",
+    "password": "$2a$10$A7AY9VdaGvaalrO3ul7JRurVWuIl5pKYGIf03/Vro8qJvotheYGBq",
+    "age": null,
+    "createdAt": "2025-11-21T16:24:43.345Z"
+  }
+]

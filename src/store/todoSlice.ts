@@ -1,11 +1,11 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import {
-  fetchTodos,
-  createTodo,
-  updateTodo,
-  deleteTodo,
-  toggleTodo,
   type Todo,
+  createTodo,
+  deleteTodo,
+  fetchTodos,
+  toggleTodo,
+  updateTodo,
 } from '../api/todo'
 
 export const fetchTodosThunk = createAsyncThunk(
@@ -124,6 +124,9 @@ const todosSlice = createSlice({
         if (todo) {
           todo.completed = action.payload.completed
         }
+      })
+      .addCase(toggleTodoThunk.rejected, (state, action) => {
+        state.error = action.error.message || 'Задача не обновилась!'
       })
 
       .addCase(deleteTodoThunk.fulfilled, (state, action) => {

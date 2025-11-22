@@ -4,38 +4,37 @@ import { useState } from 'react'
 import { VscAdd, VscFilter } from 'react-icons/vsc'
 import {
   Alert,
-  IconButton,
-  Menu,
-  Portal,
-  Input,
   Box,
+  Button,
   Grid,
   GridItem,
+  IconButton,
+  Input,
+  Menu,
   MenuItemGroup,
   NumberInput,
-  Button,
+  Portal,
 } from '@chakra-ui/react'
-import { ColorModeButton } from './ui/color-mode'
 import { TbArrowsDownUp } from 'react-icons/tb'
 import { LuBookOpen } from 'react-icons/lu'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
 import { toaster } from './ui/toaster'
 import {
-  setFilter,
-  setSortBy,
   createTodoThunk,
-  setPage,
+  setFilter,
   setLimit,
+  setPage,
+  setSortBy,
 } from '../store/todoSlice'
 
 export function Header() {
   const [value, setValue] = useState('')
   const [isButtonDisabled, setIsButtonDisabled] = useState(false)
   const [showAlert, setShowAlert] = useState(false)
-  const [limitValue, setLimitValue] = useState('10') // состояние для NumberInput
+  const [limitValue, setLimitValue] = useState('10')
 
   const dispatch = useAppDispatch()
-  const { filter, sortBy } = useAppSelector(state => state.todos) // добавил filter и sortBy
+  const { filter, sortBy } = useAppSelector(state => state.todos)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value)
@@ -96,7 +95,7 @@ export function Header() {
   return (
     <Box>
       <Grid
-        templateColumns='auto 1fr auto auto auto auto'
+        templateColumns='auto 1fr auto auto auto'
         gap={6}
         alignItems='center'
         p={1}
@@ -144,9 +143,11 @@ export function Header() {
                       Кол-во задач на странице:
                     </Menu.ItemGroupLabel>
                     <Box p={3}>
-                      <NumberInput.Root 
-                        value={limitValue} 
-                        onValueChange={({ value }) => handleLimitInputChange(value)}
+                      <NumberInput.Root
+                        value={limitValue}
+                        onValueChange={({ value }) =>
+                          handleLimitInputChange(value)
+                        }
                         width='100%'
                         min={1}
                         max={20}
@@ -154,7 +155,7 @@ export function Header() {
                         <NumberInput.Control />
                         <NumberInput.Input />
                       </NumberInput.Root>
-                      <Button 
+                      <Button
                         onClick={handleLimitChange}
                         marginTop={2}
                         width='100%'
@@ -190,7 +191,9 @@ export function Header() {
                       cursor='pointer'
                       value='active'
                       onClick={() => handleFilterChange('active')}
-                      backgroundColor={filter === 'active' ? 'bg.subtle' : 'transparent'}
+                      backgroundColor={
+                        filter === 'active' ? 'bg.subtle' : 'transparent'
+                      }
                     >
                       Активные
                     </Menu.Item>
@@ -198,7 +201,9 @@ export function Header() {
                       cursor='pointer'
                       value='completed'
                       onClick={() => handleFilterChange('completed')}
-                      backgroundColor={filter === 'completed' ? 'bg.subtle' : 'transparent'}
+                      backgroundColor={
+                        filter === 'completed' ? 'bg.subtle' : 'transparent'
+                      }
                     >
                       Завершенные
                     </Menu.Item>
@@ -206,7 +211,9 @@ export function Header() {
                       cursor='pointer'
                       value='all'
                       onClick={() => handleFilterChange('all')}
-                      backgroundColor={filter === 'all' ? 'bg.subtle' : 'transparent'}
+                      backgroundColor={
+                        filter === 'all' ? 'bg.subtle' : 'transparent'
+                      }
                     >
                       Все
                     </Menu.Item>
@@ -237,7 +244,9 @@ export function Header() {
                       value='newest'
                       onClick={() => handleSortChange('newest')}
                       cursor='pointer'
-                      backgroundColor={sortBy === 'newest' ? 'bg.subtle' : 'transparent'}
+                      backgroundColor={
+                        sortBy === 'newest' ? 'bg.subtle' : 'transparent'
+                      }
                     >
                       Новые
                     </Menu.Item>
@@ -245,7 +254,9 @@ export function Header() {
                       value='oldest'
                       onClick={() => handleSortChange('oldest')}
                       cursor='pointer'
-                      backgroundColor={sortBy === 'oldest' ? 'bg.subtle' : 'transparent'}
+                      backgroundColor={
+                        sortBy === 'oldest' ? 'bg.subtle' : 'transparent'
+                      }
                     >
                       Старые
                     </Menu.Item>
@@ -253,7 +264,9 @@ export function Header() {
                       value='active'
                       onClick={() => handleSortChange('active')}
                       cursor='pointer'
-                      backgroundColor={sortBy === 'active' ? 'bg.subtle' : 'transparent'}
+                      backgroundColor={
+                        sortBy === 'active' ? 'bg.subtle' : 'transparent'
+                      }
                     >
                       Активные
                     </Menu.Item>
@@ -261,7 +274,9 @@ export function Header() {
                       value='completed'
                       onClick={() => handleSortChange('completed')}
                       cursor='pointer'
-                      backgroundColor={sortBy === 'completed' ? 'bg.subtle' : 'transparent'}
+                      backgroundColor={
+                        sortBy === 'completed' ? 'bg.subtle' : 'transparent'
+                      }
                     >
                       Завершенные
                     </Menu.Item>
@@ -271,14 +286,10 @@ export function Header() {
             </Portal>
           </Menu.Root>
         </GridItem>
-
-        <GridItem display='flex' justifyContent='center'>
-          <ColorModeButton />
-        </GridItem>
       </Grid>
 
       {showAlert && (
-        <Alert.Root status='error' marginTop={8}>
+        <Alert.Root status='error' marginTop={10}>
           <Alert.Indicator />
           <Alert.Content>
             <Alert.Title>Поле не может быть пустым!</Alert.Title>

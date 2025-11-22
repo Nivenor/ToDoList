@@ -1,12 +1,12 @@
 import { EditTodo } from './EditTodo'
 import { useState } from 'react'
 import { VscEdit, VscPass, VscPassFilled, VscTrash } from 'react-icons/vsc'
-import { GridItem, Box, Grid, IconButton, Text } from '@chakra-ui/react'
+import { Box, Grid, GridItem, IconButton, Text } from '@chakra-ui/react'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
 import {
+  deleteTodoThunk,
   toggleTodoThunk,
   updateTodoThunk,
-  deleteTodoThunk,
 } from '../store/todoSlice'
 
 export function TodoItem({ todoId }: { todoId: number }) {
@@ -16,7 +16,9 @@ export function TodoItem({ todoId }: { todoId: number }) {
     state.todos.items.find(t => t.id === todoId)
   )
 
-  if (!todo) return null
+  if (!todo) {
+    return null
+  }
 
   function handleEdit(newText: string) {
     dispatch(updateTodoThunk({ id: todoId, text: newText }))

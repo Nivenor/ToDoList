@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import {
+  Alert,
+  Box,
   Button,
   ButtonGroup,
-  Box,
-  Input,
   Grid,
   GridItem,
-  Alert,
+  Input,
 } from '@chakra-ui/react'
 
 type EditTodoProps = {

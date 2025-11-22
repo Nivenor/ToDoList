@@ -6,15 +6,18 @@ import { theme } from './components/theme.ts'
 import { ColorModeProvider } from './components/ui/color-mode.tsx'
 import { Provider } from 'react-redux'
 import { store } from './store/index.ts'
+import { BrowserRouter } from 'react-router-dom'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Provider store={store}>
-      <ColorModeProvider>
-        <ChakraProvider value={theme}>
-          <App />
-        </ChakraProvider>
-      </ColorModeProvider>
-    </Provider>
+    <BrowserRouter>
+      <Provider store={store}>
+        <ColorModeProvider>
+          <ChakraProvider value={theme}>
+            <App />
+          </ChakraProvider>
+        </ColorModeProvider>
+      </Provider>
+    </BrowserRouter>
   </StrictMode>
 )
