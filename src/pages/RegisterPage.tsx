@@ -5,6 +5,7 @@ import { useAppDispatch } from '../hooks/redux.ts'
 import { registerUser } from '../store/authSlice.ts'
 import { Link } from 'react-router-dom'
 
+
 interface RegisterForm {
   email: string
   password: string

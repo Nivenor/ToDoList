@@ -32,6 +32,15 @@ export function LoginPage() {
     }
   }, [user])
 
+  const vibrate = () => {
+    if (Math.random() < 0.5) {
+      navigator.vibrate(300)
+    } else {
+      navigator.vibrate(800)
+    }
+    
+  }
+
   return (
     <Box
       bg='bg.canvas'
@@ -94,7 +103,7 @@ export function LoginPage() {
             )}
           </Field.Root>
           <HStack alignItems='center' justifyContent='center' p={2}>
-            <Button size='xl' colorPalette='blue' variant='ghost' type='submit'>
+            <Button size='xl' colorPalette='blue' variant='ghost' type='submit' onClick={vibrate}>
               Отправить
             </Button>
             <Button size='xl' colorPalette='pink' variant='ghost' type='reset'>

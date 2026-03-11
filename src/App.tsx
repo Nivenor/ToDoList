@@ -1,13 +1,28 @@
+
+import type { ComponentType } from 'react'
+import { lazy,  } from 'react'
 import { Route, Routes } from 'react-router-dom'
-import { HomePage } from './pages/HomePage'
 import { Box } from '@chakra-ui/react'
-import { LoginPage } from './pages/LoginPage'
-import { RegisterPage } from './pages/RegisterPage'
-import { ProfilePage } from './pages/ProfilePage'
-import { PasswordChangePage } from './pages/PasswordChangePage'
 import { Layout } from './components/Layout'
 import { ProtectedRoute } from './components/ProtectedRoute'
-import { NotFoundPage } from './pages/NotFoundPage'
+
+const lazyNamed = <T extends ComponentType<any>>(
+  importFn: () => Promise<Record<string, T>>,
+  componentName: string
+) => {
+  return lazy(() =>
+    importFn().then(module => ({
+      default: module[componentName] as T
+    }))
+  );
+};
+
+const HomePage = lazyNamed(() => import('./pages/HomePage'), 'HomePage')
+const LoginPage = lazyNamed(() => import('./pages/LoginPage'), 'LoginPage')
+const RegisterPage = lazyNamed(() => import('./pages/RegisterPage'), 'RegisterPage')
+const ProfilePage = lazyNamed(() => import('./pages/ProfilePage'), 'ProfilePage')
+const PasswordChangePage = lazyNamed(() => import('./pages/PasswordChangePage'), 'PasswordChangePage')
+const NotFoundPage = lazyNamed(() => import('./pages/NotFoundPage'), 'NotFoundPage')
 
 export function App() {
   return (
@@ -36,6 +51,7 @@ export function App() {
                 </ProtectedRoute>
               }
             />
+            
             <Route
               path='/password-change'
               element={

@@ -12,5 +12,12 @@
     "password": "$2a$10$A7AY9VdaGvaalrO3ul7JRurVWuIl5pKYGIf03/Vro8qJvotheYGBq",
     "age": null,
     "createdAt": "2025-11-21T16:24:43.345Z"
+  },
+  {
+    "id": 1766146674014,
+    "email": "sasha@yandex.ru",
+    "password": "$2a$10$loC8nBX3Zf6xYLuM5HOJn.X8WgM0lT1sejzeGhkvHmF1ifnMsHiXq",
+    "age": 23,
+    "createdAt": "2025-12-19T12:17:54.014Z"
   }
 ]

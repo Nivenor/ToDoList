@@ -9,7 +9,7 @@ import {
   Input,
 } from '@chakra-ui/react'
 
-type EditTodoProps = {
+interface EditTodoProps {
   baseText: string
   onCancel: () => void
   onSave: (newText: string) => void

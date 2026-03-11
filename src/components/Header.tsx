@@ -292,7 +292,7 @@ export function Header() {
         <Alert.Root status='error' marginTop={10}>
           <Alert.Indicator />
           <Alert.Content>
-            <Alert.Title>Поле не может быть пустым!</Alert.Title>
+            <Alert.Title colorPalette='pink' >Поле не может быть пустым!</Alert.Title>
           </Alert.Content>
         </Alert.Root>
       )}
