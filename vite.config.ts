@@ -6,6 +6,12 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: '0.0.0.0', // Разрешаем подключения с любых IP в сети
-    port: 5173,      // Убедимся, что порт тот же (необязательно)
+    port: 5173,      // Убедимся, что порт тот же
+    allowedHosts: [
+      'reasonably-feasible-pratincole.cloudpub.ru',
+      '.cloudpub.ru', // Разрешить все поддомены cloudpub.ru
+      'localhost',
+      '.localhost'
+    ],
   }
 })
