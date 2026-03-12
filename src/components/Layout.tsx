@@ -15,6 +15,9 @@ export function Layout() {
         <Link to='/profile'>
           <Button variant='ghost'>Профиль</Button>
         </Link>
+        <Link to='/tsd'>
+          <Button variant='ghost'>TSD</Button>
+        </Link>
         <ColorModeButton />
       </HStack>
       <Box flex='1'>

@@ -18,6 +18,7 @@ const lazyNamed = <T extends ComponentType<any>>(
 };
 
 const HomePage = lazyNamed(() => import('./pages/HomePage'), 'HomePage')
+const TsdPage = lazyNamed(() => import('./pages/TsdPage'), 'TsdPage')
 const LoginPage = lazyNamed(() => import('./pages/LoginPage'), 'LoginPage')
 const RegisterPage = lazyNamed(() => import('./pages/RegisterPage'), 'RegisterPage')
 const ProfilePage = lazyNamed(() => import('./pages/ProfilePage'), 'ProfilePage')
@@ -33,6 +34,7 @@ export function App() {
             <Route path='*' element={<NotFoundPage />} />
             <Route path='/login' element={<LoginPage />} />
             <Route path='/register' element={<RegisterPage />} />
+            <Route path='/tsd' element={<TsdPage />} />
 
             <Route
               path='/'
