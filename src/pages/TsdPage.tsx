@@ -8,16 +8,15 @@ export function TsdPage () {
   const [isCameraOn, setIsCameraOn] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
-  // Проверка поддержки камеры при загрузке
   useEffect(() => {
+    console.log(navigator);
+    
     const checkCameraSupport = async () => {
-      // Проверяем базовую поддержку
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
         setError('Ваш браузер не поддерживает доступ к камере')
         return
       }
 
-      // Проверяем наличие камер (опционально)
       try {
         const devices = await navigator.mediaDevices.enumerateDevices()
         const hasCamera = devices.some(device => device.kind === 'videoinput')
@@ -25,7 +24,6 @@ export function TsdPage () {
           setError('На вашем устройстве не найдена камера')
         }
       } catch (err) {
-        // Игнорируем ошибки enumerateDevices, это не критично
         console.log('Не удалось проверить наличие камер', err)
       }
     }
@@ -38,20 +36,17 @@ export function TsdPage () {
     setError(null)
     
     try {
-      // Двойная проверка поддержки
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
         throw new Error('Ваш браузер не поддерживает доступ к камере')
       }
 
-      // Для мобильных устройств важно указать аудио: false
-      // и использовать более простые настройки видео
       const constraints = {
         video: {
           facingMode: { ideal: 'environment' }, // Используем ideal вместо exact
           width: { ideal: 1280 },
           height: { ideal: 720 }
         },
-        audio: false // Важно для мобильных устройств!
+        audio: false 
       }
 
       console.log('Запрос камеры с constraints:', constraints)
@@ -88,7 +83,6 @@ export function TsdPage () {
       } else if (err.name === 'NotReadableError' || err.name === 'TrackStartError') {
         setError('Камера уже используется другим приложением')
       } else if (err.name === 'OverconstrainedError') {
-        // Пробуем снова с более простыми настройками
         try {
           console.log('Пробуем с минимальными настройками...')
           const fallbackStream = await navigator.mediaDevices.getUserMedia({ 
